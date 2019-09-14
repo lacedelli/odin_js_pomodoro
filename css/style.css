@@ -1,0 +1,36 @@
+/*
+===== Main body styles =====
+*/
+html{
+  min-height: 800px;
+}
+
+.surface {
+  position: absolute;
+  top: 20%;
+  left: 25%; 
+  min-width: 400px;
+  background: red;
+  
+}
+
+/*
+===== Title styles =====
+*/
+
+.title {
+  position: relative;
+  left: 33%;
+}
+
+/*
+===== Controller button styles =====
+*/
+
+.controller{
+  display: inline-block;  
+}
+
+ul li {
+  display: inline-block;
+}
