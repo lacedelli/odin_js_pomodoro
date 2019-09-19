@@ -21,6 +21,12 @@ button {
   border-radius: 5px;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
+}
+
+button:active {
+  color: white;
+  background-color: darkgray;
 }
 
 /*
