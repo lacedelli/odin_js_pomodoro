@@ -1,7 +1,7 @@
 /*
 ===== Main body styles =====
 */
-html{
+html {
   min-height: 800px;
 }
 
@@ -10,8 +10,17 @@ html{
   top: 20%;
   left: 25%; 
   min-width: 400px;
-  background: red;
+  height: 250px;
+  background: lightgrey;
   
+}
+
+button {
+  background: white;
+  border: 1px solid grey;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
 }
 
 /*
@@ -19,18 +28,59 @@ html{
 */
 
 .title {
-  position: relative;
-  left: 33%;
+  padding-left: 21%;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  font-size: 1.7em;
 }
 
 /*
 ===== Controller button styles =====
 */
 
-.controller{
+.controller {
+  margin-left: 15%;
+  margin-bottom: 8px;
   display: inline-block;  
+}
+
+.controller h3 {
+  padding-left: 10%;
+}
+
+.plus button, .minus button {
+  padding: 5px 10px;
+}
+
+ul.panel {
+  padding-left: 10%;
+  padding-bottom: 10px;
+  border-bottom: 3px solid black;
 }
 
 ul li {
   display: inline-block;
+}
+
+.panel li {
+  margin-right: 5%;
+}
+
+.panel button {
+  font-size: 1.1em;
+  padding: 3px 5px;
+}
+
+/*
+====== timer styles ======
+*/
+
+.display .timer {
+  background-color: white;
+  border: 1px solid grey;
+  width: 200px;
+  height: 80px;
+  margin-top: 10px;
+  margin-left: 25%;
+  t
 }
