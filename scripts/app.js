@@ -1,16 +1,17 @@
 // Set up variables to work the clock
-const timer = document.querySelector(".display .timer");
-const workTimer = document.querySelector(".work .timer p");
-const restTimer = document.querySelector(".rest .timer p");
+const TIMER = document.querySelector(".display .timer");
+const WORKTIMER = document.querySelector(".work .timer p");
+const RESTTIMER = document.querySelector(".rest .timer p");
 
 // TODO Do initial setup on the display of times and variables
-var displayTime = 25 
-var timeInterval = 0 
+let displayWorkTime = 25; 
+let displayRestTime = 5;
+let timeInterval = 25;
 
 // TODO Make a function that takes n parameters: the timer to be modified,
 // the operand to use on the number, and the node whose innerHTML is to be
 // changed
-function timerController(number, operand, node) {
+function timerController(time, operand, node) {
 	if(operand === "add") {
 		
 	} else if(operand === "sub") {
@@ -38,16 +39,35 @@ function reset() {
 	console.log("henlo, reset");
 }
 
-// TODO	Make a handler function that formats time outputs into proper strings
-// for display on the webpage
-function parseToStr() {
+// Function that takes two numbers and formats them to be displayed in "minutes:seconds" format,
+// padding with zeros if necessary
+function parseToStr(minutes, seconds) {
+	let strMinutes = ""
+	let strSeconds = ""
 
+	if (minutes < 10) {
+		strMinutes = "0" + String(minutes);
+	} else {
+		strMinutes = String(minutes);
+	}
+
+	if (seconds < 10) {
+		strSeconds = "0" + String(seconds);
+	} else {
+		strSeconds = String(seconds);
+	}
+
+	return strMinutes + ":" + strSeconds;
 }
 
-// TODO Make a handler function that takes in text strings from the page and
-// converts them into integers for the code to work with
-function parseToInt() {
-
+// Function that takes a node from the page and returns an array with minutes and seconds
+function parseToInt(node) {
+	let pat = /(\d{1,2}):(\d{1,2})/;
+	let match = node.innerHTML.match(pat);
+	return {
+		"minutes": parseInt(match[1]),
+		"seconds": parseInt(match[2]),
+	};
 }
 
 // Math.floor(Date.now() /1000/60 %60) formula for minutes
