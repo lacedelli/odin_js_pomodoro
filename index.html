@@ -13,17 +13,17 @@
 			<div class="controller">
 				<h3 class="active">Work time</h3>
 				<ul class="work">
-					<li class="plus"><button>&#43;</button></li>
+					<li class="plus"><button onclick="timerController('add', WORKTIMER)">&#43;</button></li>
 					<li class="timer"><p>25:00</p></li>
-					<li class="minus"><button>&#45;</button></li>
+					<li class="minus"><button onclick="timerController('sub', WORKTIMER)">&#45;</button></li>
 				</ul>
 			</div>
 			<div class="controller">
 				<h3 class="passive">Rest time</h3>
 				<ul class="rest">
-					<li class="plus"><button>&#43;</button></li>
-					<li class="timer"><p>5:00</p></li>
-					<li class="minus"><button>&#45;</button></li>
+					<li class="plus"><button onclick="timerController('add', RESTTIMER)">&#43;</button></li>
+					<li class="timer"><p>05:00</p></li>
+					<li class="minus"><button onclick="timerController('sub', RESTTIMER)">&#45;</button></li>
 				</ul>
 			</div>
 			<ul class="panel">

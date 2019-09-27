@@ -2,41 +2,96 @@
 const TIMER = document.querySelector(".display .timer");
 const WORKTIMER = document.querySelector(".work .timer p");
 const RESTTIMER = document.querySelector(".rest .timer p");
+const DISPLAY = document.querySelector(".display .timer");
 
 // TODO Do initial setup on the display of times and variables
-let displayWorkTime = 25; 
-let displayRestTime = 5;
-let timeInterval = 25;
+let workTimeInterval = 25;
+let restTimeInterval = 5;
+let timerIsRunning = false;
+let timerStarted = false;
+let interval;
 
-// TODO Make a function that takes n parameters: the timer to be modified,
-// the operand to use on the number, and the node whose innerHTML is to be
-// changed
-function timerController(time, operand, node) {
-	if(operand === "add") {
+// Function that takes a string operand and a node, depending on the operation specified
+// it will modify the innerHTML of the node.
+
+function timerController(operand, node) {
+	if(!timerIsRunning){
+		if(operand === "add") {
+			let timer = parseToInt(node);
+
+			if (timer.minutes === 59) {
+				timer.minutes = 0;
+			} else {
+				timer.minutes++;
+			}
 		
-	} else if(operand === "sub") {
+			node.innerHTML = parseToStr(timer.minutes, timer.seconds);
 
+		
+		} else if(operand === "sub") {
+			let timer = parseToInt(node);
+
+			if (timer.minutes === 0) {
+				timer.minutes = 59;
+			} else {
+				timer.minutes--;
+			}
+
+			node.innerHTML = parseToStr(timer.minutes, timer.seconds);
+		}	
+		updateCounters();
 	}
+}
+
+// Function that updates both controller variables with the 
+// values of their innerHTML counterparts.
+
+function updateCounters(){
+	workTimeInterval = parseToInt(WORKTIMER).minutes;
+	restTimeInterval = parseToInt(RESTTIMER).minutes;
 }
 
 // TODO Make functions for play button
 function play() {
-	console.log("henlo, play");
+	timerIsRunning = true;
+	let deadline;
+	if(!timerStarted){
+		timerStarted = true;
+		deadline = setFinishTime(workTimeInterval);
+		console.log(deadline);
+	} else {
+		deadline = setFinishTime(parseToInt(DISPLAY).minutes, parseToInt(DISPLAY).seconds); 
+		console.log(deadline); 
+	}
+	let timeLeft = Date.parse(deadline) - Date.parse(new Date);
+	console.log(timeLeft/1000/60 %60);
 }
 
 // TODO Make a function for the pause button
 function pause() {
-	console.log("helno, pause");
+	timerIsRunning = false;
 }
 
 // TODO Make a function for the stop button
 function stop() {
-	console.log("henlo, stop");
+	timerIsRunning = false;
+	timerStarted = false;
 }
 
 // TODO Make a function for the reset button
 function reset() {
-	console.log("henlo, reset");
+	if(!timerIsRunning){
+
+	}
+}
+
+// TODO add a function that sets a "deadline" based on the moment the function is called and two 
+// integers, that represent minutes and seconds.
+function setFinishTime(minutes, seconds = 0){
+	let deadline = new Date();
+	deadline.setMinutes(deadline.getMinutes() + minutes);
+	deadline.setSeconds(deadline.getSeconds() + seconds);
+	return deadline;
 }
 
 // Function that takes two numbers and formats them to be displayed in "minutes:seconds" format,
