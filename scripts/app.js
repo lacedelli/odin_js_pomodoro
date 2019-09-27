@@ -1,5 +1,4 @@
 // Set up variables to work the clock
-const TIMER = document.querySelector(".display .timer");
 const WORKTIMER = document.querySelector(".work .timer p");
 const RESTTIMER = document.querySelector(".rest .timer p");
 const DISPLAY = document.querySelector(".display .timer");
@@ -10,6 +9,9 @@ let restTimeInterval = 5;
 let timerIsRunning = false;
 let timerStarted = false;
 let interval;
+// if 0, it's worktime, if 1 it's resttime
+let intervalSwitch = 0;
+let timeLeft;
 
 // Function that takes a string operand and a node, depending on the operation specified
 // it will modify the innerHTML of the node.
@@ -54,17 +56,17 @@ function updateCounters(){
 // TODO Make functions for play button
 function play() {
 	timerIsRunning = true;
-	let deadline;
-	if(!timerStarted){
-		timerStarted = true;
-		deadline = setFinishTime(workTimeInterval);
-		console.log(deadline);
-	} else {
-		deadline = setFinishTime(parseToInt(DISPLAY).minutes, parseToInt(DISPLAY).seconds); 
-		console.log(deadline); 
-	}
-	let timeLeft = Date.parse(deadline) - Date.parse(new Date);
-	console.log(timeLeft/1000/60 %60);
+	timeLeft = setFinishTime(workTimeInterval);
+
+	console.log(timeLeft + " outside interval");
+	interval = setInterval(() => {
+		DISPLAY.innerHTML = parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds);	
+		console.log(convertMil(timeLeft));
+		console.log(parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds) + " inside interval");
+
+		timeLeft--;
+	},1000);
+
 }
 
 // TODO Make a function for the pause button
@@ -81,17 +83,26 @@ function stop() {
 // TODO Make a function for the reset button
 function reset() {
 	if(!timerIsRunning){
-
+		timerStarted = false;
 	}
 }
 
-// TODO add a function that sets a "deadline" based on the moment the function is called and two 
-// integers, that represent minutes and seconds.
+// Function that returns time (in milliseconds) from the time given by the controller
 function setFinishTime(minutes, seconds = 0){
 	let deadline = new Date();
 	deadline.setMinutes(deadline.getMinutes() + minutes);
 	deadline.setSeconds(deadline.getSeconds() + seconds);
-	return deadline;
+	return Date.parse(deadline) - Date.parse(new Date);
+}
+
+// Function that parses Date.parse() output into an object with minutes and seconds keys
+function convertMil(milliseconds){
+	let formatted = {
+		"minutes": parseInt(milliseconds /1000 /60 %60),
+		"seconds": parseInt(milliseconds /1000 %60),
+	};
+
+	return formatted;
 }
 
 // Function that takes two numbers and formats them to be displayed in "minutes:seconds" format,
