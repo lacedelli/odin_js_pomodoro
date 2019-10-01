@@ -8,6 +8,7 @@ let workTimeInterval = 25;
 let restTimeInterval = 5;
 let timerIsRunning = false;
 let timerStarted = false;
+let timerPaused = false;
 let interval;
 // if 0, it's worktime, if 1 it's resttime
 let intervalSwitch = 0;
@@ -56,22 +57,21 @@ function updateCounters(){
 // TODO Make functions for play button
 function play() {
 	timerIsRunning = true;
-	timeLeft = setFinishTime(workTimeInterval);
+	if (!timerStarted) {
+		timeLeft = setFinishTime(workTimeInterval);
+		timerStarted = true;
+		startTimer();
+	} else {
+		timerPaused = false;	
+	}
 
-	console.log(timeLeft + " outside interval");
-	interval = setInterval(() => {
-		DISPLAY.innerHTML = parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds);	
-		console.log(convertMil(timeLeft));
-		console.log(parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds) + " inside interval");
-
-		timeLeft--;
-	},1000);
 
 }
 
 // TODO Make a function for the pause button
 function pause() {
 	timerIsRunning = false;
+	stopTimer();
 }
 
 // TODO Make a function for the stop button
@@ -92,7 +92,7 @@ function setFinishTime(minutes, seconds = 0){
 	let deadline = new Date();
 	deadline.setMinutes(deadline.getMinutes() + minutes);
 	deadline.setSeconds(deadline.getSeconds() + seconds);
-	return Date.parse(deadline) - Date.parse(new Date);
+	return (Date.parse(deadline) - Date.parse(new Date()));
 }
 
 // Function that parses Date.parse() output into an object with minutes and seconds keys
@@ -101,7 +101,6 @@ function convertMil(milliseconds){
 		"minutes": parseInt(milliseconds /1000 /60 %60),
 		"seconds": parseInt(milliseconds /1000 %60),
 	};
-
 	return formatted;
 }
 
@@ -136,4 +135,18 @@ function parseToInt(node) {
 	};
 }
 
-// Math.floor(Date.now() /1000/60 %60) formula for minutes
+function startTimer() {
+	interval = setInterval(() => {
+		if (!timerPaused) {
+			console.log(parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds) + " inside interval");
+			timeLeft -= 1000;
+			console.log("decremented time to: " + timeLeft);
+			let timeArr = convertMil(timeLeft);
+			DISPLAY.innerHTML = parseToStr(timeArr.minutes, timeArr.seconds);	
+		}
+	},1000);
+}
+
+function stopTimer() {
+	timerPaused = true;
+}
