@@ -16,9 +16,7 @@ let timeLeft;
 // Set the interval loop working from the getgo, but have the ticker only work when timerPaused is false.
 let interval = setInterval(() => {
 	if (!timerPaused) {
-		console.log(parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds) + " inside interval");
 		timeLeft -= 1000;
-		console.log("decremented time to: " + timeLeft);
 		let timeArr = convertMil(timeLeft);
 		DISPLAY.innerHTML = parseToStr(timeArr.minutes, timeArr.seconds);	
 	}
@@ -93,6 +91,7 @@ function pause() {
 function stop() {
 	timerIsRunning = false;
 	timerStarted = false;
+	timerPaused = true;
 	if (intervalSwitch % 2 === 0) {
 		DISPLAY.innerHTML = parseToStr(workTimeInterval, 0);
 	} else {
