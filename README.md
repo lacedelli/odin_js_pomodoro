@@ -15,8 +15,8 @@ This project is supposed to be a pair programming one, but, I have a very irregu
 While it took a relatively long time to make it work, the actual worktime that this project took would probably be one of around one day or two of continuous work. 
 The layout isn't anywhere at all where it could be aesthetics-wise, but for now it'll have to do; the functionability hasn't been tested to the extent it should have, but at this moment in my learning path, there are a lot of holes in my knowledge, and worrying about having projects work "perfectly" isn't my main priority right now, over having them just work.
 
-The main thing that got me stuck for a bit was the fact that instead of having the millisecond counter detract by factors of 1000, what I did was a simple decrement of one digit, which led me to believe that the code was"not working correctly", but it was; I was just altering the values by the wrong proportions.
-The way that I solved the problem was modifiyng the value of the interval activation to 10 milliseconds, rather than a thousand, therefore showing me the underlying difference between the way that the values gave off the impression that the code was not working correctly; which was partially true.
+The main thing that got me stuck for a bit was the fact that instead of having the millisecond counter detract by factors of 1000, what I did was a simple decrement of one digit, which led me to believe that the code was "not working correctly", but it was; I was just altering the values by the wrong proportions.
+The way that I solved the problem was modifiyng the value of the interval activation to 10 milliseconds, rather than a thousand, therefore showing me the underlying error in my code.
 
 Again. terrible time management, but hey, I got hyperfocused on making a cigar box guitar, so, that's neat.
 
