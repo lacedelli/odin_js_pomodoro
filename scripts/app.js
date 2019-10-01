@@ -3,16 +3,31 @@ const WORKTIMER = document.querySelector(".work .timer p");
 const RESTTIMER = document.querySelector(".rest .timer p");
 const DISPLAY = document.querySelector(".display .timer");
 
-// TODO Do initial setup on the display of times and variables
+// Do initial setup on the display of times and variables
 let workTimeInterval = 25;
 let restTimeInterval = 5;
 let timerIsRunning = false;
 let timerStarted = false;
-let timerPaused = false;
-let interval;
+let timerPaused = true;
 // if 0, it's worktime, if 1 it's resttime
 let intervalSwitch = 0;
 let timeLeft;
+
+// Set the interval loop working from the getgo, but have the ticker only work when timerPaused is false.
+let interval = setInterval(() => {
+	if (!timerPaused) {
+		console.log(parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds) + " inside interval");
+		timeLeft -= 1000;
+		console.log("decremented time to: " + timeLeft);
+		let timeArr = convertMil(timeLeft);
+		DISPLAY.innerHTML = parseToStr(timeArr.minutes, timeArr.seconds);	
+	}
+	if (timeLeft === 0) {
+		// Use a modulo operator controlled switch to change between the work and rest state.
+		intervalSwitch++;
+		setTimer();
+	}
+},1000);
 
 // Function that takes a string operand and a node, depending on the operation specified
 // it will modify the innerHTML of the node.
@@ -54,36 +69,51 @@ function updateCounters(){
 	restTimeInterval = parseToInt(RESTTIMER).minutes;
 }
 
-// TODO Make functions for play button
+// Function that starts the timer at the work position (its default one) 
 function play() {
 	timerIsRunning = true;
 	if (!timerStarted) {
-		timeLeft = setFinishTime(workTimeInterval);
+		setTimer();
 		timerStarted = true;
-		startTimer();
+		timerPaused = false;
 	} else {
 		timerPaused = false;	
 	}
-
-
 }
 
-// TODO Make a function for the pause button
+// Sets values to false
 function pause() {
 	timerIsRunning = false;
-	stopTimer();
+	timerPaused = true;
+	
 }
 
-// TODO Make a function for the stop button
+// Function that stops the timer and sets the timer to the relevant value depending on the 
+// switch
 function stop() {
 	timerIsRunning = false;
 	timerStarted = false;
+	if (intervalSwitch % 2 === 0) {
+		DISPLAY.innerHTML = parseToStr(workTimeInterval, 0);
+	} else {
+		DISPLAY.innerHTML = parseToStr(restTimeInterval, 0);
+	}
+	interval = null;
 }
 
-// TODO Make a function for the reset button
+// Function that resets the entire inner working of the app
 function reset() {
 	if(!timerIsRunning){
 		timerStarted = false;
+		workTimeInterval = 25;
+		restTimeInterval = 5;
+		WORKTIMER.innerHTML = "25:00";	
+		RESTTIMER.innerHTML	= "05:00";
+		DISPLAY.innerHTML = "25:00";
+		timerIsRunning = false;
+		timerStarted = false;
+		timerPaused = true;
+		intervalSwitch = 0;
 	}
 }
 
@@ -135,18 +165,10 @@ function parseToInt(node) {
 	};
 }
 
-function startTimer() {
-	interval = setInterval(() => {
-		if (!timerPaused) {
-			console.log(parseToStr(convertMil(timeLeft).minutes, convertMil(timeLeft).seconds) + " inside interval");
-			timeLeft -= 1000;
-			console.log("decremented time to: " + timeLeft);
-			let timeArr = convertMil(timeLeft);
-			DISPLAY.innerHTML = parseToStr(timeArr.minutes, timeArr.seconds);	
-		}
-	},1000);
-}
-
-function stopTimer() {
-	timerPaused = true;
+function setTimer() {
+	if (intervalSwitch % 2 === 0){
+		timeLeft = setFinishTime(workTimeInterval);
+	} else {
+		timeLeft = setFinishTime(restTimeInterval);
+	}
 }
