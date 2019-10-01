@@ -18,6 +18,6 @@ The layout isn't anywhere at all where it could be aesthetics-wise, but for now 
 The main thing that got me stuck for a bit was the fact that instead of having the millisecond counter detract by factors of 1000, what I did was a simple decrement of one digit, which led me to believe that the code was "not working correctly", but it was; I was just altering the values by the wrong proportions.
 The way that I solved the problem was modifiyng the value of the interval activation to 10 milliseconds, rather than a thousand, therefore showing me the underlying error in my code.
 
-Again. terrible time management, but hey, I got hyperfocused on making a cigar box guitar, so, that's neat.
+Again. Terrible time management, but hey, I got hyperfocused on making a cigar box guitar, so, that's neat.
 
 30/ September/ 2019
